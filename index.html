@@ -15,10 +15,12 @@
   <canvas id="cosmos"></canvas>
   <div class="aurora"></div>
 
-  <button class="btn-musica" id="btn-musica" aria-label="Prender o apagar la musica">
+  <button class="btn-musica" id="btn-musica" aria-label="Reproducir o pausar la musica">
     <span class="nota" id="nota-musica">♪</span>
-    <span id="texto-musica">Música</span>
+    <span id="texto-musica">Dale click a la música</span>
   </button>
+
+  <div class="yt-oculto"><div id="yt-player"></div></div>
 
   <!-- ===== 1. PORTADA ===== -->
   <section class="pantalla activa" id="pantalla-portada">
@@ -132,6 +134,7 @@
     </div>
   </section>
 
+  <script src="https://www.youtube.com/iframe_api"></script>
   <script src="script.js"></script>
 </body>
 </html>

@@ -632,6 +632,16 @@ html, body {
 .nota { font-size: 1rem; display: inline-block; }
 .btn-musica.sonando .nota { animation: notaLatir 1s ease-in-out infinite; color: var(--dorado); }
 
+.yt-oculto {
+  position: fixed;
+  bottom: 0; right: 0;
+  width: 240px; height: 135px;
+  opacity: 0;
+  pointer-events: none;
+  z-index: -1;
+  overflow: hidden;
+}
+
 @keyframes notaLatir {
   0%, 100% { transform: scale(1) rotate(-8deg); }
   50%      { transform: scale(1.25) rotate(8deg); }
