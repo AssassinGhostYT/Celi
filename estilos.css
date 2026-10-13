@@ -604,6 +604,93 @@ html, body {
   opacity: .65;
 }
 
+/* ===== BOTÓN DE MÚSICA ===== */
+.btn-musica {
+  position: fixed;
+  top: 16px; right: 16px;
+  z-index: 60;
+  display: inline-flex;
+  align-items: center;
+  gap: .5rem;
+  padding: .55rem 1rem;
+  font-family: 'Quicksand', sans-serif;
+  font-weight: 600;
+  font-size: .85rem;
+  color: #ffe9f2;
+  background: rgba(30, 8, 45, .55);
+  border: 1px solid rgba(255, 143, 177, .45);
+  border-radius: 999px;
+  cursor: pointer;
+  backdrop-filter: blur(8px);
+  box-shadow: 0 8px 24px rgba(20, 5, 40, .45);
+  transition: transform .25s, background .3s, box-shadow .3s;
+}
+
+.btn-musica:hover { transform: scale(1.06); background: rgba(60, 15, 80, .7); }
+.btn-musica.sonando { box-shadow: 0 0 20px rgba(255, 143, 177, .7); border-color: var(--rosa); }
+
+.nota { font-size: 1rem; display: inline-block; }
+.btn-musica.sonando .nota { animation: notaLatir 1s ease-in-out infinite; color: var(--dorado); }
+
+@keyframes notaLatir {
+  0%, 100% { transform: scale(1) rotate(-8deg); }
+  50%      { transform: scale(1.25) rotate(8deg); }
+}
+
+/* ===== DESPEDIDA Y FIN ===== */
+.despedida {
+  margin-top: 5vh;
+  max-width: 620px;
+  opacity: 0;
+  transform: translateY(20px);
+  animation: revelar 1.4s ease 1.5s forwards;
+}
+
+.gracias {
+  font-family: 'Great Vibes', cursive;
+  font-size: clamp(1.8rem, 6vw, 2.8rem);
+  color: var(--rosa-suave);
+  margin-bottom: 1rem;
+  text-shadow: 0 0 30px rgba(255, 143, 177, .5);
+}
+
+.ultima {
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: clamp(1.05rem, 3.4vw, 1.5rem);
+  line-height: 1.9;
+  color: #f3e8ff;
+}
+
+@keyframes revelar {
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.fin {
+  margin-top: 7vh;
+  font-family: 'Parisienne', 'Great Vibes', cursive;
+  font-size: clamp(2.6rem, 10vw, 5rem);
+  color: transparent;
+  background: linear-gradient(120deg, #fff, var(--dorado), var(--rosa), #fff);
+  background-size: 240% 240%;
+  -webkit-background-clip: text;
+  background-clip: text;
+  animation: brillar 6s ease infinite, revelar 2s ease 3.5s both;
+  opacity: 0;
+  letter-spacing: .12em;
+  text-shadow: 0 0 40px rgba(255, 217, 138, .4);
+}
+
+.fin::before,
+.fin::after {
+  content: '✦';
+  font-size: .35em;
+  color: var(--dorado);
+  vertical-align: middle;
+  margin: 0 .5em;
+  opacity: .8;
+}
+
 /* ===== DESTELLOS DEL CURSOR ===== */
 .destello {
   position: fixed;

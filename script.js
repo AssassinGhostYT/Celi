@@ -131,6 +131,7 @@ let sobreAbierto = false;
 sobre.addEventListener('click', () => {
   if (sobreAbierto) return;
   sobreAbierto = true;
+  iniciarMusica();
   sobre.classList.add('abierto');
   setTimeout(() => {
     mostrarPantalla('pantalla-carta');
@@ -418,4 +419,136 @@ document.addEventListener('pointermove', (e) => {
   d.style.color = Math.random() > 0.5 ? '#ffd98a' : '#ff8fb1';
   document.body.appendChild(d);
   setTimeout(() => d.remove(), 900);
+});
+
+/* ---------- 13. MÚSICA ROMÁNTICA DE FONDO (Web Audio) ---------- */
+const btnMusica = document.getElementById('btn-musica');
+const textoMusica = document.getElementById('texto-musica');
+
+let audioCtx = null;
+let masterGain = null;
+let filtro = null;
+let reverb = null;
+let reverbGain = null;
+let musicaSonando = false;
+let planificadorID = null;
+let siguienteTiempo = 0;
+let pasoGlobal = 0;
+
+// Progresión I - V - vi - IV (Do - Sol - La menor - Fa): suena muy romántica
+const ACORDES = [
+  [261.63, 329.63, 392.00, 523.25],
+  [196.00, 246.94, 293.66, 392.00],
+  [220.00, 261.63, 329.63, 440.00],
+  [174.61, 220.00, 261.63, 349.23],
+];
+const DURACION_PASO = 0.46;
+
+function crearReverb(ctx) {
+  const dur = 2.6;
+  const rate = ctx.sampleRate;
+  const len = Math.floor(rate * dur);
+  const buf = ctx.createBuffer(2, len, rate);
+  for (let ch = 0; ch < 2; ch++) {
+    const d = buf.getChannelData(ch);
+    for (let i = 0; i < len; i++) {
+      d[i] = (Math.random() * 2 - 1) * Math.pow(1 - i / len, 2.4);
+    }
+  }
+  const conv = ctx.createConvolver();
+  conv.buffer = buf;
+  return conv;
+}
+
+function initAudio() {
+  if (audioCtx) return;
+  audioCtx = new (window.AudioContext || window.webkitAudioContext)();
+
+  masterGain = audioCtx.createGain();
+  masterGain.gain.value = 0;
+  masterGain.connect(audioCtx.destination);
+
+  filtro = audioCtx.createBiquadFilter();
+  filtro.type = 'lowpass';
+  filtro.frequency.value = 2400;
+  filtro.Q.value = 0.5;
+  filtro.connect(masterGain);
+
+  reverb = crearReverb(audioCtx);
+  reverbGain = audioCtx.createGain();
+  reverbGain.gain.value = 0.4;
+  reverb.connect(reverbGain);
+  reverbGain.connect(masterGain);
+  filtro.connect(reverb);
+}
+
+function tocarNota(freq, cuando, dur, vol, tipo) {
+  const osc = audioCtx.createOscillator();
+  const g = audioCtx.createGain();
+  osc.type = tipo || 'triangle';
+  osc.frequency.value = freq;
+  g.gain.setValueAtTime(0.0001, cuando);
+  g.gain.linearRampToValueAtTime(vol, cuando + 0.03);
+  g.gain.exponentialRampToValueAtTime(0.0001, cuando + dur);
+  osc.connect(g);
+  g.connect(filtro);
+  osc.start(cuando);
+  osc.stop(cuando + dur + 0.05);
+}
+
+function programar() {
+  const horizonte = audioCtx.currentTime + 0.2;
+  while (siguienteTiempo < horizonte) {
+    const acorde = ACORDES[Math.floor(pasoGlobal / 4) % ACORDES.length];
+    const idx = pasoGlobal % 4;
+    const octava = Math.floor(pasoGlobal / 8) % 2 === 0 ? 2 : 1;
+
+    tocarNota(acorde[idx] * octava, siguienteTiempo, 1.2, 0.15, 'triangle');
+
+    if (idx === 3) tocarNota(acorde[0] * 2, siguienteTiempo + 0.22, 0.9, 0.07, 'sine');
+
+    if (idx === 0) {
+      tocarNota(acorde[0], siguienteTiempo, 2.3, 0.06, 'sine');
+      tocarNota(acorde[2], siguienteTiempo, 2.3, 0.045, 'sine');
+    }
+
+    siguienteTiempo += DURACION_PASO;
+    pasoGlobal++;
+  }
+}
+
+function iniciarPlanificador() {
+  if (planificadorID) return;
+  siguienteTiempo = audioCtx.currentTime + 0.1;
+  programar();
+  planificadorID = setInterval(programar, 60);
+}
+
+function iniciarMusica() {
+  initAudio();
+  if (audioCtx.state === 'suspended') audioCtx.resume();
+  musicaSonando = true;
+  const t = audioCtx.currentTime;
+  masterGain.gain.cancelScheduledValues(t);
+  masterGain.gain.setValueAtTime(masterGain.gain.value, t);
+  masterGain.gain.linearRampToValueAtTime(0.5, t + 1.6);
+  iniciarPlanificador();
+  btnMusica.classList.add('sonando');
+  textoMusica.textContent = 'Sonando';
+}
+
+function pausarMusica() {
+  musicaSonando = false;
+  if (!audioCtx) return;
+  const t = audioCtx.currentTime;
+  masterGain.gain.cancelScheduledValues(t);
+  masterGain.gain.setValueAtTime(masterGain.gain.value, t);
+  masterGain.gain.linearRampToValueAtTime(0, t + 0.8);
+  btnMusica.classList.remove('sonando');
+  textoMusica.textContent = 'Música';
+}
+
+btnMusica.addEventListener('click', () => {
+  if (musicaSonando) pausarMusica();
+  else iniciarMusica();
 });
