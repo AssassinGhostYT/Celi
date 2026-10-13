@@ -378,30 +378,32 @@ function iniciarLluviaCorazones() {
   }, 240);
 }
 
-/* ---------- 11. BOTÓN FINAL: FRASES ---------- */
-const frases = [
-  'Que tu sonrisa es lo que más me gusta del universo entero. 🙈',
-  'Que me pierdo en tus ojos y no quiero que nadie me encuentre.',
-  'Que entendí que no te sobra el tiempo, y aun así cada ratito tuyo lo guardo como un tesoro.',
-  'Que no te lo digo por decir: me gustas de verdad, Celi. Y me gusta todo de ti. ♡',
-  'Que si algún día quieres, me encantaría ser tuyo, y ser el novio que siempre soñaste. ✨',
-];
-let indiceFrase = 0;
+/* ---------- 11. ÚLTIMO BOTÓN: CIERRA LA CARTA Y MUESTRA EL FINAL ---------- */
+const contenedorFinal = document.getElementById('final-contenido');
+const cartaFinal = document.getElementById('carta-final');
+
 document.getElementById('btn-corazon').addEventListener('click', () => {
-  const nodo = document.getElementById('broma');
-  nodo.textContent = frases[indiceFrase % frases.length];
-  nodo.classList.add('visible');
-  indiceFrase++;
-  for (let i = 0; i < 16; i++) {
+  if (cartaFinal.classList.contains('cerrando')) return;
+  cartaFinal.classList.add('cerrando');
+
+  // estallido de corazones al cerrar
+  for (let i = 0; i < 24; i++) {
     const c = document.createElement('span');
     c.className = 'corazon-cae';
     c.textContent = '♡';
-    c.style.left = `${50 + (Math.random() - 0.5) * 44}vw`;
-    c.style.fontSize = `${16 + Math.random() * 22}px`;
+    c.style.left = `${50 + (Math.random() - 0.5) * 60}vw`;
+    c.style.fontSize = `${16 + Math.random() * 24}px`;
     c.style.animationDuration = `${3 + Math.random() * 3}s`;
     document.getElementById('lluvia-corazones').appendChild(c);
     setTimeout(() => c.remove(), 6000);
   }
+
+  // cuando termina de cerrarse la carta, aparece el mensaje final + Fin
+  setTimeout(() => {
+    cartaFinal.style.display = 'none';
+    contenedorFinal.classList.add('mostrando');
+    contenedorFinal.scrollIntoView({ behavior: 'smooth', block: 'center' });
+  }, 1150);
 });
 
 /* ---------- 12. DESTELLOS QUE SIGUEN EL CURSOR ---------- */
