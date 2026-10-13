@@ -705,6 +705,76 @@ html, body {
   letter-spacing: .12em;
   text-shadow: 0 0 40px rgba(255, 217, 138, .4);
   transition: opacity 1.4s ease .8s, transform 1.4s ease .8s;
+  border: none;
+  cursor: pointer;
+  padding: .2em .3em;
+}
+
+.fin:hover { transform: scale(1.08); }
+.fin:active { transform: scale(.95); }
+
+.pista-fin {
+  margin-top: .6rem;
+  font-family: 'Cormorant Garamond', serif;
+  font-style: italic;
+  font-size: 1rem;
+  color: var(--rosa-suave);
+  opacity: 0;
+  transition: opacity 1.2s ease 1.6s;
+  animation: flotar 2.4s ease-in-out infinite;
+}
+
+.final-contenido.mostrando .pista-fin { opacity: .7; }
+
+/* Corazón gigante que explota */
+.corazon-gigante {
+  position: fixed;
+  left: 50%; top: 50%;
+  z-index: 200;
+  pointer-events: none;
+  font-size: 34vmin;
+  line-height: 1;
+  color: var(--rosa);
+  transform: translate(-50%, -50%) scale(0);
+  text-shadow: 0 0 70px rgba(255, 143, 177, .9), 0 0 140px rgba(255, 143, 177, .6);
+  animation: crecer-corazon 1.2s cubic-bezier(.2, 1.1, .3, 1) forwards;
+}
+
+@keyframes crecer-corazon {
+  0%   { transform: translate(-50%, -50%) scale(0); opacity: 0; }
+  25%  { opacity: 1; }
+  60%  { transform: translate(-50%, -50%) scale(1.05); opacity: 1; }
+  100% { transform: translate(-50%, -50%) scale(1.7); opacity: 0; }
+}
+
+.particula-corazon {
+  position: fixed;
+  left: 50%; top: 50%;
+  z-index: 201;
+  pointer-events: none;
+  line-height: 1;
+  transform: translate(-50%, -50%);
+  animation: explotar-particula 1.2s ease-out forwards;
+}
+
+@keyframes explotar-particula {
+  0%   { transform: translate(-50%, -50%) scale(.5); opacity: 1; }
+  100% {
+    transform: translate(calc(-50% + var(--tx)), calc(-50% + var(--ty)))
+               scale(1.3) rotate(var(--rot));
+    opacity: 0;
+  }
+}
+
+/* Vibración de pantalla al explotar */
+body.temblor { animation: temblor .5s ease; }
+
+@keyframes temblor {
+  0%, 100% { transform: translate(0, 0); }
+  20% { transform: translate(-6px, 4px); }
+  40% { transform: translate(6px, -4px); }
+  60% { transform: translate(-4px, -4px); }
+  80% { transform: translate(4px, 4px); }
 }
 
 .pd { transition: opacity 1.2s ease 1.4s; }

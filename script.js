@@ -406,6 +406,58 @@ document.getElementById('btn-corazon').addEventListener('click', () => {
   }, 1150);
 });
 
+/* ---------- 11b. EL "FIN" EXPLOTA EN UN CORAZÓN GIGANTE ---------- */
+const botonFin = document.getElementById('fin');
+
+function explosionCorazones() {
+  const cx = window.innerWidth / 2;
+  const cy = window.innerHeight / 2;
+  const simbolos = ['♡', '♥', '✦', '❀', '✿'];
+  const colores = ['#ff8fb1', '#c79cff', '#ffd98a', '#ff9ec4', '#ffffff'];
+  const maxDim = Math.max(window.innerWidth, window.innerHeight);
+
+  for (let i = 0; i < 80; i++) {
+    const p = document.createElement('span');
+    p.className = 'particula-corazon';
+    p.textContent = simbolos[Math.floor(Math.random() * simbolos.length)];
+
+    const ang = Math.random() * Math.PI * 2;
+    const dist = 90 + Math.random() * maxDim * 0.65;
+    p.style.setProperty('--tx', `${Math.cos(ang) * dist}px`);
+    p.style.setProperty('--ty', `${Math.sin(ang) * dist}px`);
+    p.style.setProperty('--rot', `${Math.random() * 720 - 360}deg`);
+    p.style.color = colores[Math.floor(Math.random() * colores.length)];
+    p.style.fontSize = `${14 + Math.random() * 28}px`;
+    p.style.animationDuration = `${0.9 + Math.random() * 0.9}s`;
+
+    document.body.appendChild(p);
+    setTimeout(() => p.remove(), 2200);
+  }
+}
+
+botonFin.addEventListener('click', () => {
+  if (botonFin.dataset.explotando) return;
+  botonFin.dataset.explotando = '1';
+
+  // corazón gigante que crece y estalla
+  const grande = document.createElement('span');
+  grande.className = 'corazon-gigante';
+  grande.textContent = '♥';
+  document.body.appendChild(grande);
+  setTimeout(() => grande.remove(), 1300);
+
+  // pequeña vibración de pantalla
+  document.body.classList.add('temblor');
+  setTimeout(() => document.body.classList.remove('temblor'), 520);
+
+  // primera oleada de partículas
+  explosionCorazones();
+  // segunda oleada al "estallar"
+  setTimeout(explosionCorazones, 650);
+
+  setTimeout(() => { delete botonFin.dataset.explotando; }, 1600);
+});
+
 /* ---------- 12. DESTELLOS QUE SIGUEN EL CURSOR ---------- */
 let ultimoDestello = 0;
 document.addEventListener('pointermove', (e) => {
