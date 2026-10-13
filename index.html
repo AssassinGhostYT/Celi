@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para Celisbeth ✨</title>
+  <meta name="description" content="Una carta hecha de estrellas y flores, para Celisbeth." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,600;1,400&family=Great+Vibes&family=Parisienne&family=Quicksand:wght@300;400;500;600&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="estilos.css" />
+</head>
+<body>
+
+  <canvas id="cosmos"></canvas>
+  <div class="aurora"></div>
+
+  <!-- ===== 1. PORTADA ===== -->
+  <section class="pantalla activa" id="pantalla-portada">
+    <div class="corazones-flotantes" id="corazones-flotantes"></div>
+    <div class="portada">
+      <p class="susurro">Hay algo que llevo queriendo decirte...</p>
+      <h1 class="titulo-galaxia">Entre todas las estrellas</h1>
+      <p class="subtitulo">te elegiría a ti, Celisbeth, una y otra vez.</p>
+
+      <button class="sobre" id="btn-abrir" aria-label="Abrir la carta">
+        <div class="sobre-tapa"></div>
+        <div class="sobre-cuerpo">
+          <span class="sello">♡</span>
+        </div>
+        <div class="carta-oculta"></div>
+      </button>
+
+      <p class="toca">Toca el sobre para abrirlo</p>
+    </div>
+    <div class="piso-flores" id="flores-portada"></div>
+  </section>
+
+  <!-- ===== 2. LA CARTA ===== -->
+  <section class="pantalla" id="pantalla-carta">
+    <div class="carta-papel">
+      <div class="cinta"></div>
+      <div class="carta-contenido">
+        <h2 class="para-ti">Mi querida Celi,</h2>
+        <p id="texto-carta" class="texto-carta"></p>
+        <div class="firma">
+          <span class="desde">con todo mi cariño,</span>
+          <span class="nombre-firma">Jose</span>
+        </div>
+      </div>
+      <div class="petalos" id="petalos-carta"></div>
+    </div>
+
+    <button class="boton-siguiente" id="btn-capitulo1">
+      Seguir leyendo
+      <span class="flecha">→</span>
+    </button>
+  </section>
+
+  <!-- ===== 3. CAPÍTULOS ===== -->
+  <section class="pantalla" id="pantalla-capitulos">
+    <div class="capitulo" id="capa-capitulo">
+      <span class="numero-capitulo" id="num-capitulo">I</span>
+      <h2 class="titulo-capitulo" id="titulo-capitulo"></h2>
+      <p class="texto-capitulo" id="texto-capitulo-texto"></p>
+      <div class="corazon-latido" id="corazon-capitulo">♡</div>
+    </div>
+    <div class="barra-progreso"><div class="barra-relleno" id="barra-relleno"></div></div>
+    <button class="boton-siguiente" id="btn-siguiente-capitulo">
+      Continuar
+      <span class="flecha">→</span>
+    </button>
+  </section>
+
+  <!-- ===== 4. JARDÍN ===== -->
+  <section class="pantalla" id="pantalla-jardin">
+    <div class="jardin-encabezado">
+      <p class="susurro">Florecí pensando en ti</p>
+      <h2 class="titulo-galaxia">Un jardín para ti</h2>
+      <p class="subtitulo">cada flor guarda un motivo por el que me gustas.</p>
+    </div>
+    <div class="jardin" id="jardin">
+      <div class="parcela"></div>
+      <div class="parcela"></div>
+      <div class="parcela"></div>
+      <div class="parcela"></div>
+      <div class="parcela"></div>
+    </div>
+    <p class="ayuda-flor">Toca cada flor para descubrir un motivo</p>
+    <button class="boton-siguiente" id="btn-nombre">
+      El cielo tiene algo que mostrarte
+      <span class="flecha">→</span>
+    </button>
+  </section>
+
+  <!-- ===== 5. CONSTELACIÓN CON SU NOMBRE ===== -->
+  <section class="pantalla" id="pantalla-nombre">
+    <div class="nombre-encabezado">
+      <p class="susurro">hay un nombre escrito en el firmamento</p>
+    </div>
+    <h1 class="nombre-estelar" id="nombre-estelar">Celisbeth</h1>
+    <p class="subtitulo">y no es casualidad: es el que no puedo dejar de repetir.</p>
+    <button class="boton-siguiente" id="btn-final">
+      Tengo algo más que decirte
+      <span class="flecha">→</span>
+    </button>
+  </section>
+
+  <!-- ===== 6. FINAL ===== -->
+  <section class="pantalla" id="pantalla-final">
+    <div class="lluvia-corazones" id="lluvia-corazones"></div>
+    <div class="final-contenido">
+      <p class="susurro">y después de todo este universo...</p>
+      <h1 class="me-gustas">me gustas</h1>
+      <p class="final-frase">muchísimo, Celisbeth. No somos novios todavía, y lo respeto... pero quería que supieras que me encantaría ser ese novio con el que soñaste.</p>
+      <button class="boton-corazon" id="btn-corazon">Dime una última cosa ♡</button>
+      <p class="broma" id="broma"></p>
+      <p class="pd" id="pd">Hecho con muchísimo cariño, solo para ti. — Jose ♡</p>
+    </div>
+  </section>
+
+  <script src="script.js"></script>
+</body>
+</html>
